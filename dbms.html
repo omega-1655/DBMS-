@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBMS SQL Experiments</title>
+    <style>
+        /* --- Basic Setup --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* --- Page Layout --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #16a085;
+            margin-top: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        /* --- Experiment Card --- */
+        .experiment {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* --- Code Block Styling --- */
+        .code-container {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            font-family: "Consolas", "Menlo", "Monaco", monospace;
+            font-size: 0.9em;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto; /* Allows horizontal scrolling for long code lines */
+            white-space: pre; /* Preserves whitespace and newlines */
+            line-height: 1.5;
+        }
+        
+        /* Keep code tag for semantic correctness */
+        pre code {
+            font-family: inherit;
+        }
+
+        /* --- Copy Button Styling --- */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: bold;
+            opacity: 0.8;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+            background-color: #2980b9;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.97);
+        }
+        
+        /* Feedback state for the button */
+        .copy-btn.copied {
+            background-color: #2ecc71; /* Green */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>DBMS SQL Experiments</h1>
+
+        <div class="experiment">
+            <h2>Experiment 1: Data Definition Language (DDL)</h2>
+            [cite_start]<p>Create and populate a database using DDL commands like CREATE, ALTER, and DROP[cite: 1, 23].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create tables [cite: 2]
+CREATE TABLE DEPARTMENT (
+    Dept_ID NUMBER PRIMARY KEY,
+    Dept_Name VARCHAR2(50) NOT NULL,
+    Location VARCHAR2(50)
+[cite_start]); [cite: 3-7]
+
+CREATE TABLE EMPLOYEE (
+    Emp_ID NUMBER PRIMARY KEY,
+    Emp_Name VARCHAR2(50) NOT NULL,
+    Salary NUMBER CHECK (Salary > 0),
+    Dept_ID NUMBER REFERENCES DEPARTMENT(Dept_ID)
+[cite_start]); [cite: 8-13]
+
+CREATE TABLE PROJECT (
+    Proj_ID NUMBER PRIMARY KEY,
+    Proj_Name VARCHAR2(50) UNIQUE,
+    Dept_ID NUMBER REFERENCES DEPARTMENT(Dept_ID)
+[cite_start]); [cite: 14-18]
+
+[cite_start]-- Insert data [cite: 19]
+[cite_start]INSERT INTO DEPARTMENT VALUES (1, 'HR', 'Pune'); [cite: 20]
+[cite_start]INSERT INTO DEPARTMENT VALUES (2, 'IT', 'Mumbai'); [cite: 20]
+[cite_start]INSERT INTO EMPLOYEE VALUES (101, 'Aditya', 50000, 2); [cite: 21]
+[cite_start]INSERT INTO EMPLOYEE VALUES (102, 'Riya', 40000, 1); [cite: 21]
+[cite_start]INSERT INTO PROJECT VALUES (201, 'Website Dev', 2); [cite: 22]
+[cite_start]INSERT INTO PROJECT VALUES (202, 'Recruitment', 1); [cite: 22]
+
+[cite_start]-- DDL operations [cite: 23]
+[cite_start]ALTER TABLE EMPLOYEE ADD (Email VARCHAR2(50) DEFAULT 'notset@gmail.com'); [cite: 24]
+[cite_start]ALTER TABLE EMPLOYEE MODIFY (Emp_Name VARCHAR2(100)); [cite: 25]
+[cite_start]ALTER TABLE PROJECT DROP COLUMN Dept_ID; [cite: 26]
+
+[cite_start]-- Display data [cite: 27]
+[cite_start]SELECT * FROM DEPARTMENT; [cite: 28]
+[cite_start]SELECT * FROM EMPLOYEE; [cite: 29]
+[cite_start]SELECT * FROM PROJECT; [cite: 30]
+</code></pre>
+            </div>
+        </div>
+
+        <div class="experiment">
+            <h2>Experiment 2: Data Manipulation Language (DML)</h2>
+            [cite_start]<p>Perform DML commands like INSERT, UPDATE, and DELETE[cite: 31].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create a table first [cite: 32]
+CREATE TABLE Employee (
+    Emp_ID NUMBER,
+    Emp_Name VARCHAR2(50),
+    Salary NUMBER,
+    City VARCHAR2(50)
+[cite_start]); [cite: 33-38]
+
+[cite_start]-- INSERT: Add records into the table [cite: 39]
+[cite_start]INSERT INTO Employee VALUES (101, 'Aditya', 50000, 'Pune'); [cite: 40]
+[cite_start]INSERT INTO Employee VALUES (102, 'Riya', 45000, 'Mumbai'); [cite: 41]
+[cite_start]INSERT INTO Employee VALUES (103, 'Rahul', 40000, 'Delhi'); [cite: 41]
+
+[cite_start]-- SELECT: View all data [cite: 42]
+[cite_start]SELECT * FROM Employee; [cite: 43]
+
+[cite_start]-- UPDATE: Modify data in the table [cite: 44]
+[cite_start]UPDATE Employee SET Salary = 55000 WHERE Emp_ID = 101; [cite: 45]
+
+[cite_start]-- DELETE: Remove one record [cite: 46]
+[cite_start]DELETE FROM Employee WHERE Emp_ID = 103; [cite: 47]
+
+[cite_start]-- SELECT again to see changes [cite: 48]
+[cite_start]SELECT * FROM Employee; [cite: 49]
+</code></pre>
+            </div>
+        </div>
+
+        <div class="experiment">
+            <h2>Experiment 3: Integrity Constraints</h2>
+            [cite_start]<p>Apply constraints like NOT NULL, CHECK, UNIQUE, and DEFAULT [cite: 50-51].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+CREATE TABLE Student (
+    [cite_start]RollNo NUMBER UNIQUE,       -- UNIQUE [cite: 53-54]
+    [cite_start]Name VARCHAR2(50) NOT NULL, -- NOT NULL [cite: 55-56]
+    [cite_start]Age NUMBER CHECK (Age >= 18), -- CHECK [cite: 57-58]
+    [cite_start]City VARCHAR2(50) DEFAULT 'Pune' -- DEFAULT [cite: 60]
+[cite_start]); [cite: 52, 59]
+
+[cite_start]INSERT INTO Student (RollNo, Name, Age) VALUES (1, 'Aditya', 19); [cite: 61]
+[cite_start]INSERT INTO Student (RollNo, Name, Age, City) VALUES (2, 'Riya', 20, 'Mumbai'); [cite: 62]
+
+[cite_start]SELECT * FROM Student; [cite: 63]
+</code></pre>
+            </div>
+        </div>
+        
+        <div class="experiment">
+            <h2>Experiment 4: Primary & Foreign Keys</h2>
+            [cite_start]<p>Apply PRIMARY KEY and FOREIGN KEY constraints to create relationships[cite: 64].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create DEPARTMENT table (Parent table) [cite: 65]
+CREATE TABLE Department (
+    Dept_ID NUMBER PRIMARY KEY,
+    Dept_Name VARCHAR2(50)
+[cite_start]); [cite: 66-69]
+
+[cite_start]-- Create EMPLOYEE table (Child table) [cite: 70]
+CREATE TABLE Employee (
+    Emp_ID NUMBER PRIMARY KEY,
+    Emp_Name VARCHAR2(50),
+    Dept_ID NUMBER,
+    FOREIGN KEY (Dept_ID) REFERENCES Department(Dept_ID)
+[cite_start]); [cite: 71-76]
+
+[cite_start]-- Insert data [cite: 77]
+[cite_start]INSERT INTO Department VALUES (1, 'HR'); [cite: 78]
+[cite_start]INSERT INTO Department VALUES (2, 'IT'); [cite: 79]
+[cite_start]INSERT INTO Employee VALUES (101, 'Aditya', 2); [cite: 80]
+[cite_start]INSERT INTO Employee VALUES (102, 'Riya', 1); [cite: 80]
+
+[cite_start]-- Display data [cite: 81]
+[cite_start]SELECT * FROM Department; [cite: 82]
+[cite_start]SELECT * FROM Employee; [cite: 83]
+</code></pre>
+            </div>
+        </div>
+
+        <div class="experiment">
+            <h2>Experiment 5: Nested Queries (Subqueries)</h2>
+            [cite_start]<p>Implement and execute nested queries[cite: 84].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create table Department [cite: 85]
+CREATE TABLE Department (
+    Dept_ID NUMBER PRIMARY KEY,
+    Dept_Name VARCHAR2(50)
+[cite_start]); [cite: 86-89]
+
+[cite_start]-- Create table Employee [cite: 90]
+CREATE TABLE Employee (
+    Emp_ID NUMBER PRIMARY KEY,
+    Emp_Name VARCHAR2(50),
+    Salary NUMBER,
+    Dept_ID NUMBER REFERENCES Department(Dept_ID)
+[cite_start]); [cite: 91-96]
+
+[cite_start]-- Insert data [cite: 97]
+[cite_start]INSERT INTO Department VALUES (1, 'HR'); [cite: 98]
+[cite_start]INSERT INTO Department VALUES (2, 'IT'); [cite: 99]
+[cite_start]INSERT INTO Employee VALUES (101, 'Aditya', 50000, 2); [cite: 100]
+[cite_start]INSERT INTO Employee VALUES (102, 'Riya', 40000, 1); [cite: 100]
+[cite_start]INSERT INTO Employee VALUES (103, 'Rahul', 60000, 2); [cite: 101]
+
+[cite_start]-- 1) Nested query: find employees who earn more than average salary [cite: 102]
+SELECT Emp_Name, Salary
+FROM Employee
+[cite_start]WHERE Salary > (SELECT AVG(Salary) FROM Employee); [cite: 103-104]
+
+[cite_start]-- 2) Nested query: find employees working in 'IT' department [cite: 105]
+SELECT Emp_Name
+FROM Employee
+WHERE Dept_ID = (
+    SELECT Dept_ID FROM Department WHERE Dept_Name = 'IT'
+[cite_start]); [cite: 106-110]
+</code></pre>
+            </div>
+        </div>
+        
+        <div class="experiment">
+            <h2>Experiment 6: INNER JOIN</h2>
+            [cite_start]<p>Perform and implement INNER JOIN operations[cite: 111]. [cite_start]This shows only matching records from both tables[cite: 130].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create Department table [cite: 112]
+CREATE TABLE Department (
+    Dept_ID NUMBER PRIMARY KEY,
+    Dept_Name VARCHAR2(50)
+[cite_start]); [cite: 113-116]
+
+[cite_start]-- Create Employee table [cite: 117]
+CREATE TABLE Employee (
+    Emp_ID NUMBER PRIMARY KEY,
+    Emp_Name VARCHAR2(50),
+    Dept_ID NUMBER REFERENCES Department(Dept_ID)
+[cite_start]); [cite: 118-122]
+
+[cite_start]-- Insert data [cite: 123]
+[cite_start]INSERT INTO Department VALUES (1, 'HR'); [cite: 124]
+[cite_start]INSERT INTO Department VALUES (2, 'IT'); [cite: 125]
+[cite_start]INSERT INTO Department VALUES (3, 'Finance'); [cite: 126]
+[cite_start]INSERT INTO Employee VALUES (101, 'Aditya', 2); [cite: 127]
+[cite_start]INSERT INTO Employee VALUES (102, 'Riya', 1); [cite: 128]
+[cite_start]INSERT INTO Employee VALUES (103, 'Rahul', 2); [cite: 129]
+
+[cite_start]-- INNER JOIN: shows only matching records [cite: 130]
+SELECT Employee.Emp_ID, Employee.Emp_Name, Department.Dept_Name
+FROM Employee
+INNER JOIN Department
+[cite_start]ON Employee.Dept_ID = Department.Dept_ID; [cite: 131-134]
+</code></pre>
+            </div>
+        </div>
+        
+        <div class="experiment">
+            <h2>Experiment 7: OUTER JOINs (LEFT & RIGHT)</h2>
+            [cite_start]<p>Perform and implement LEFT and RIGHT OUTER JOIN operations[cite: 135].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create Department table [cite: 136]
+CREATE TABLE Department (
+    Dept_ID NUMBER PRIMARY KEY,
+    Dept_Name VARCHAR2(50)
+[cite_start]); [cite: 137-140]
+
+[cite_start]-- Create Employee table [cite: 141]
+CREATE TABLE Employee (
+    Emp_ID NUMBER PRIMARY KEY,
+    Emp_Name VARCHAR2(50),
+    Dept_ID NUMBER
+[cite_start]); [cite: 142-146]
+
+[cite_start]-- Insert data [cite: 147]
+[cite_start]INSERT INTO Department VALUES (1, 'HR'); [cite: 148]
+[cite_start]INSERT INTO Department VALUES (2, 'IT'); [cite: 148]
+[cite_start]INSERT INTO Department VALUES (3, 'Finance'); [cite: 149]
+[cite_start]INSERT INTO Employee VALUES (101, 'Aditya', 2); [cite: 150]
+[cite_start]INSERT INTO Employee VALUES (102, 'Riya', 1); [cite: 150]
+[cite_start]-- Note: No employee in Finance department [cite: 151]
+
+[cite_start]-- LEFT OUTER JOIN [cite: 152]
+-- (Returns all employees, and their department if it exists)
+SELECT e.Emp_Name, d.Dept_Name
+FROM Employee e
+LEFT OUTER JOIN Department d
+[cite_start]ON e.Dept_ID = d.Dept_ID; [cite: 153-154]
+
+[cite_start]-- RIGHT OUTER JOIN [cite: 155]
+-- (Returns all departments, and their employees if they exist)
+SELECT e.Emp_Name, d.Dept_Name
+FROM Employee e
+RIGHT OUTER JOIN Department d
+[cite_start]ON e.Dept_ID = d.Dept_ID; [cite: 156-159]
+</code></pre>
+            </div>
+        </div>
+
+        <div class="experiment">
+            <h2>Experiment 8: Views</h2>
+            [cite_start]<p>Implement views and perform operations like CREATE, UPDATE (through view), and DROP [cite: 188-189].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create table [cite: 190]
+CREATE TABLE Employee (
+    Emp_ID NUMBER,
+    Emp_Name VARCHAR2(50),
+    Salary NUMBER,
+    Dept VARCHAR2(50)
+[cite_start]); [cite: 191-196]
+
+[cite_start]-- Insert data [cite: 197]
+[cite_start]INSERT INTO Employee VALUES (101, 'Aditya', 50000, 'IT'); [cite: 198]
+[cite_start]INSERT INTO Employee VALUES (102, 'Riya', 45000, 'HR'); [cite: 199]
+[cite_start]INSERT INTO Employee VALUES (103, 'Rahul', 60000, 'IT'); [cite: 199]
+
+[cite_start]-- Create a VIEW [cite: 201]
+CREATE VIEW IT_Employees AS
+SELECT Emp_Name, Salary
+FROM Employee
+[cite_start]WHERE Dept = 'IT'; [cite: 202-205]
+
+[cite_start]-- View data from the view [cite: 206]
+[cite_start]SELECT * FROM IT_Employees; [cite: 207]
+
+[cite_start]-- Update through view [cite: 208]
+[cite_start]UPDATE IT_Employees SET Salary = 65000 WHERE Emp_Name = 'Aditya'; [cite: 209]
+
+[cite_start]-- Drop the view [cite: 210]
+[cite_start]DROP VIEW IT_Employees; [cite: 211]
+</code></pre>
+            </div>
+        </div>
+        
+        <div class="experiment">
+            <h2>Experiment 9: Triggers</h2>
+            [cite_start]<p>Implement a trigger that logs changes to a table[cite: 212].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create main table [cite: 213]
+CREATE TABLE Employee (
+    Emp_ID NUMBER,
+    Emp_Name VARCHAR2(50),
+    Salary NUMBER
+[cite_start]); [cite: 214-218]
+
+[cite_start]-- Create log table to record changes [cite: 219]
+CREATE TABLE Emp_Log (
+    Emp_ID NUMBER,
+    Action VARCHAR2(20),
+    Action_Time DATE
+[cite_start]); [cite: 220-224]
+
+[cite_start]-- Create Trigger [cite: 225]
+CREATE OR REPLACE TRIGGER emp_after_insert
+AFTER INSERT ON Employee
+FOR EACH ROW
+BEGIN
+    INSERT INTO Emp_Log VALUES (:NEW.Emp_ID, 'Inserted', SYSDATE);
+END;
+/
+[cite_start][cite: 226-232]
+
+[cite_start]-- Insert data into main table [cite: 233]
+[cite_start]INSERT INTO Employee VALUES (101, 'Aditya', 50000); [cite: 234]
+[cite_start]INSERT INTO Employee VALUES (102, 'Riya', 45000); [cite: 235]
+
+[cite_start]-- View both tables (Emp_Log will be populated by the trigger) [cite: 236]
+[cite_start]SELECT * FROM Employee; [cite: 237]
+[cite_start]SELECT * FROM Emp_Log; [cite: 238]
+</code></pre>
+            </div>
+        </div>
+
+        <div class="experiment">
+            <h2>Experiment 10: Table Creation with Foreign Keys</h2>
+            [cite_start]<p>Create DEPARTMENT and LOCATION tables with a foreign key relationship [cite: 239-241].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create LOCATION table (parent table) [cite: 242]
+CREATE TABLE Location (
+    Location_ID NUMBER PRIMARY KEY,
+    City VARCHAR2(50)
+[cite_start]); [cite: 243-246]
+
+[cite_start]-- Create DEPARTMENT table (child table) [cite: 247]
+CREATE TABLE Department (
+    Department_ID NUMBER PRIMARY KEY,
+    Name VARCHAR2(50),
+    Location_ID NUMBER REFERENCES Location(Location_ID)
+[cite_start]); [cite: 248-251]
+
+[cite_start]-- Insert sample data [cite: 252]
+[cite_start]INSERT INTO Location VALUES (1, 'Pune'); [cite: 253]
+[cite_start]INSERT INTO Location VALUES (2, 'Mumbai'); [cite: 254]
+[cite_start]INSERT INTO Department VALUES (101, 'HR', 1); [cite: 255]
+[cite_start]INSERT INTO Department VALUES (102, 'IT', 2); [cite: 255]
+
+[cite_start]-- View data [cite: 256]
+[cite_start]SELECT * FROM Location; [cite: 257]
+[cite_start]SELECT * FROM Department; [cite: 258]
+</code></pre>
+            </div>
+        </div>
+        
+        <div class="experiment">
+            <h2>Experiment 11: Simple Queries (DISTINCT, ORDER BY)</h2>
+            [cite_start]<p>Perform various queries on an EMPLOYEE table[cite: 328].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create EMPLOYEE table [cite: 332]
+CREATE TABLE Employee (
+    Employee_ID NUMBER,
+    Last_Name VARCHAR2(20),
+    First_Name VARCHAR2(20),
+    Middle_Name VARCHAR2(20),
+    Job_ID NUMBER,
+    Manager_ID NUMBER,
+    Hire_Date DATE,
+    Salary NUMBER,
+    Comm NUMBER,
+    Department_ID NUMBER
+[cite_start]); [cite: 332-339]
+
+[cite_start]-- Insert records [cite: 340]
+[cite_start]INSERT INTO Employee VALUES (7369, 'SMITH', 'JOHN', 'Q', 667, 7902, TO_DATE('17-DEC-84', 'DD-MON-YY'), 800, NULL, 20); [cite: 341-342]
+[cite_start]INSERT INTO Employee VALUES (7499, 'ALLEN', 'KEVIN', 'J', 670, 7698, TO_DATE('20-FEB-85', 'DD-MON-YY'), 1600, 300, 30); [cite: 343]
+[cite_start]INSERT INTO Employee VALUES (7505, 'DOYLE', 'JEAN', 'Κ', 671, 7839, TO_DATE('04-APR-85', 'DD-MON-YY'), 2850, NULL, 30); [cite: 344]
+[cite_start]INSERT INTO Employee VALUES (7506, 'DENNIS', 'LYNN', 'S', 671, 7839, TO_DATE('15-MAY-85', 'DD-MON-YY'), 2750, NULL, 30); [cite: 345]
+[cite_start]INSERT INTO Employee VALUES (7507, 'BAKER', 'LESLIE', 'D', 671, 7839, TO_DATE('10-JUN-85', 'DD-MON-YY'), 2200, NULL, 40); [cite: 346]
+[cite_start]INSERT INTO Employee VALUES (7521, 'WARK', 'CYNTHIA', 'D', 670, 7698, TO_DATE('22-FEB-85', 'DD-MON-YY'), 1250, 500, 30); [cite: 347]
+
+[cite_start]-- View table [cite: 348]
+[cite_start]SELECT * FROM Employee; [cite: 349]
+
+[cite_start]-- (a) List all job details [cite: 329, 350]
+[cite_start]SELECT DISTINCT Job_ID FROM Employee; [cite: 351]
+
+[cite_start]-- (b) List all the locations (Department IDs used as location here) [cite: 330, 352]
+[cite_start]SELECT DISTINCT Department_ID FROM Employee; [cite: 352]
+
+[cite_start]-- (c) List employee id and name in descending order based on salary [cite: 331, 353]
+SELECT Employee_ID, First_Name, Last_Name, Salary
+FROM Employee
+[cite_start]ORDER BY Salary DESC; [cite: 353-354]
+</code></pre>
+            </div>
+        </div>
+
+        <div class="experiment">
+            <h2>Experiment 12: Simple Queries (Calculated Column)</h2>
+            [cite_start]<p>List employee details and calculate annual salary[cite: 397, 399].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create Employee Table [cite: 376]
+CREATE TABLE Employee (
+    Employee_ID NUMBER PRIMARY KEY,
+    Last_Name VARCHAR2(20),
+    First_Name VARCHAR2(20),
+    Middle_Name VARCHAR2(20),
+    Job_ID NUMBER,
+    Manager_ID NUMBER,
+    Hire_Date DATE,
+    Salary NUMBER,
+    Comm NUMBER,
+    Department_ID NUMBER
+[cite_start]); [cite: 377-388]
+
+[cite_start]-- Insert sample employee data [cite: 389]
+[cite_start]INSERT INTO Employee VALUES (7369, 'SMITH', 'JOHN', 'Q', 667, 7902, TO_DATE('17-DEC-84', 'DD-MON-YY'), 800, NULL, 20); [cite: 390-391]
+[cite_start]INSERT INTO Employee VALUES (7499, 'ALLEN', 'KEVIN', 'J', 670, 7698, TO_DATE('20-FEB-85', 'DD-MON-YY'), 1600, 300, 30); [cite: 392]
+[cite_start]INSERT INTO Employee VALUES (7521, 'WARD', 'ALEX', 'Τ', 671, 7698, TO_DATE('22-FEB-85', 'DD-MON-YY'), 1250, 500, 30); [cite: 393]
+[cite_start]INSERT INTO Employee VALUES (7566, 'JONES', 'MARTIN', 'L', 672, 7839, TO_DATE('02-APR-85', 'DD-MON-YY'), 2975, NULL, 20); [cite: 394]
+[cite_start]INSERT INTO Employee VALUES (7654, 'MARTIN', 'JAMES', 'B', 673, 7698, TO_DATE('28-SEP-85', 'DD-MON-YY'), 1250, 1400, 30); [cite: 395]
+[cite_start]COMMIT; [cite: 396]
+
+[cite_start]-- a) List first name, last name, salary, and commission for all employees [cite: 397]
+SELECT First_Name, Last_Name, Salary, Comm
+[cite_start]FROM Employee; [cite: 397-398]
+
+[cite_start]-- b) List employee's annual salary with their names [cite: 399]
+SELECT First_Name, Last_Name, (Salary* 12) AS Annual_Salary
+[cite_start]FROM Employee; [cite: 400]
+</code></pre>
+            </div>
+        </div>
+
+        <div class="experiment">
+            <h2>Experiment 13: WHERE Clause Queries (Department & Salary)</h2>
+            [cite_start]<p>Perform queries using the WHERE clause with = and BETWEEN [cite: 403-405].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create the EMPLOYEE table [cite: 406]
+CREATE TABLE Employee (
+    Employee_ID NUMBER PRIMARY KEY,
+    Last_Name VARCHAR2(20),
+    First_Name VARCHAR2(20),
+    Middle_Name VARCHAR2(20),
+    Job_ID NUMBER,
+    Manager_ID NUMBER,
+    Hire_Date DATE,
+    Salary NUMBER,
+    Comm NUMBER,
+    Department_ID NUMBER
+[cite_start]); [cite: 407-418]
+
+[cite_start]-- Insert given records [cite: 419]
+[cite_start]INSERT INTO Employee VALUES (7369, 'SMITH', 'JOHN', 'Q', 667, 7902, TO_DATE('17-DEC-84', 'DD-MON-YY'), 800, NULL, 20); [cite: 420]
+[cite_start]INSERT INTO Employee VALUES (7499, 'ALLEN', 'KEVIN', 'J', 670, 7698, TO_DATE('20-FEB-85', 'DD-MON-YY'), 1600, 300, 30); [cite: 421]
+[cite_start]INSERT INTO Employee VALUES (7505, 'DOYLE', 'JEAN', 'Κ', 671, 7839, TO_DATE('04-APR-85', 'DD-MON-YY'), 2850, NULL, 30); [cite: 422]
+[cite_start]INSERT INTO Employee VALUES (7506, 'DENNIS', 'LYNN', 'S', 671, 7839, TO_DATE('15-MAY-85', 'DD-MON-YY'), 2750, NULL, 30); [cite: 423]
+[cite_start]INSERT INTO Employee VALUES (7507, 'BAKER', 'LESLIE', 'D', 671, 7839, TO_DATE('10-JUN-85', 'DD-MON-YY'), 2200, NULL, 40); [cite: 424]
+[cite_start]INSERT INTO Employee VALUES (7521, 'WARK', 'CYNTHIIA', 'D', 670, 7698, TO_DATE('22-FEB-85', 'DD-MON-YY'), 1250, 500, 30); [cite: 425]
+[cite_start]COMMIT; [cite: 426]
+
+[cite_start]-- a) Employees working in department 20 [cite: 404, 427]
+SELECT First_Name, Last_Name, Department_ID
+FROM Employee
+[cite_start]WHERE Department_ID = 20; [cite: 428-430]
+
+[cite_start]-- b) Employees earning salary between 3000 and 4500 [cite: 405, 431]
+SELECT First_Name, Last_Name, Salary
+FROM Employee
+[cite_start]WHERE Salary BETWEEN 3000 AND 4500; [cite: 431-433]
+</code></pre>
+            </div>
+        </div>
+
+        <div class="experiment">
+            <h2>Experiment 14: WHERE Clause Queries (IN, LIKE, LENGTH)</h2>
+            [cite_start]<p>Perform queries using IN, LIKE, and LENGTH functions [cite: 436-439].</p>
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+<pre><code>
+[cite_start]-- Create EMPLOYEE table [cite: 440]
+CREATE TABLE Employee (
+    Employee_ID NUMBER PRIMARY KEY,
+    Last_Name VARCHAR2(20),
+    First_Name VARCHAR2(20),
+    Middle_Name VARCHAR2(20),
+    Job_ID NUMBER,
+    Manager_ID NUMBER,
+    Hire_Date DATE,
+    Salary NUMBER,
+    Comm NUMBER,
+    Department_ID NUMBER
+[cite_start]); [cite: 441-452]
+
+[cite_start]-- Insert given records [cite: 453]
+[cite_start]INSERT INTO Employee VALUES (7369, 'SMITH', 'JOHN', 'Q', 667, 7902, TO_DATE('17-DEC-84', 'DD-MON-YY'), 800, NULL, 20); [cite: 454-455]
+[cite_start]INSERT INTO Employee VALUES (7499, 'ALLEN', 'KEVIN', 'J', 670, 7698, TO_DATE('20-FEB-85', 'DD-MON-YY'), 1600, 300, 30); [cite: 456]
+[cite_start]INSERT INTO Employee VALUES (7505, 'DOYLE', 'JEAN', 'Κ', 671, 7839, TO_DATE('04-APR-85', 'DD-MON-YY'), 2850, NULL, 30); [cite: 457]
+[cite_start]INSERT INTO Employee VALUES (7506, 'DENNIS', 'LYNN', 'S', 671, 7839, TO_DATE('15-MAY-85', 'DD-MON-YY'), 2750, NULL, 30); [cite: 458]
+[cite_start]INSERT INTO Employee VALUES (7507, 'BAKER', 'LESLIE', 'D', 671, 7839, TO_DATE('10-JUN-85', 'DD-MON-YY'), 2200, NULL, 40); [cite: 459]
+[cite_start]INSERT INTO Employee VALUES (7521, 'WARK', 'CYNTHIIA', 'D', 670, 7698, TO_DATE('22-FEB-85', 'DD-MON-YY'), 1250, 500, 30); [cite: 460]
+[cite_start]COMMIT; [cite: 461]
+
+[cite_start]-- a) Employees who are working in department 10 or 20 [cite: 437, 462]
+SELECT First_Name, Last_Name, Department_ID
+FROM Employee
+[cite_start]WHERE Department_ID IN (10, 20); [cite: 462-463]
+
+[cite_start]-- b) Employees whose name starts with 'S' [cite: 438, 464]
+SELECT First_Name, Last_Name
+FROM Employee
+[cite_start]WHERE Last_Name LIKE 'S%'; [cite: 465-467]
+
+[cite_start]-- c) Employees whose name length is 4 and starts with 'S' [cite: 439, 468]
+SELECT First_Name, Last_Name
+FROM Employee
+[cite_start]WHERE Last_Name LIKE 'S%' AND LENGTH(Last_Name) = 4; [cite: 469-471]
+</code></pre>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- JavaScript for Copy Button ---
+        
+        // Select all copy buttons
+        const allCopyButtons = document.querySelectorAll('.copy-btn');
+
+        allCopyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Find the closest parent '.code-container'
+                const codeContainer = button.closest('.code-container');
+                // Find the 'pre' block within that container
+                const codeBlock = codeContainer.querySelector('pre');
+                
+                // Get the text from the code block
+                const codeToCopy = codeBlock.innerText;
+
+                // Use the modern Clipboard API to copy text
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    // --- Success Feedback ---
+                    // Store original text
+                    const originalText = button.innerText;
+                    
+                    // Change text and style
+                    button.innerText = 'Copied!';
+                    button.classList.add('copied');
+
+                    // Set a timeout to revert the button back
+                    setTimeout(() => {
+                        button.innerText = originalText;
+                        button.classList.remove('copied');
+                    }, 2000); // Reverts back after 2 seconds
+                    
+                }).catch(err => {
+                    // --- Error Feedback (optional) ---
+                    console.error('Failed to copy text: ', err);
+                    button.innerText = 'Error';
+                    // Revert after 2 seconds
+                    setTimeout(() => {
+                        button.innerText = 'Copy';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
